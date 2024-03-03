@@ -1,5 +1,7 @@
 # SoundCOM Project
 
+![image](https://github.com/Vincent-Yxj/SoundCOM/blob/main/pic.png)
+
 ## 项目简介
 
 SoundCOM项目是一个用于音频测量的应用程序。它通过串口与测量设备通信，实时获取音频数据，提供实时测量图表和数据记录功能。
@@ -50,12 +52,15 @@ SoundCOM项目是一个用于音频测量的应用程序。它通过串口与测
 
 ## 运行环境
 
-- Windows操作系统
+ Windows
 
 ## 依赖项
 
-- .NET 7
+ .NET 7
 
 ## 开发者
 
-- 作者：[Vincent-Yxj]
+ 作者：[Vincent-Yxj]
+
+## License
+ MIT
