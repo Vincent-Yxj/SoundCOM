@@ -1,0 +1,106 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
+        xmlns:view="clr-namespace:SoundCOM.Views"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+        xmlns:viewModel="clr-namespace:SoundCOM.ViewModels"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
+        x:Class="SoundCOM.MainWindow"
+        d:DataContext="{d:DesignInstance Type={x:Type viewModel:MainWindowViewModel}}" 
+        Height="875" Width="1250"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None"
+        mc:Ignorable="d">
+    <WindowChrome.WindowChrome>
+        <WindowChrome/>
+    </WindowChrome.WindowChrome>
+    <Viewbox>
+        <Border Background="#D3E5CF" CornerRadius="10" Width="1250" Height="850" Margin="0,25,0,0">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="50"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+
+                <StackPanel Orientation="Horizontal"  Grid.Row="0" Margin="0,0,0,0" Background="#3E413A" Cursor="Arrow"
+                        MouseLeftButtonDown="DragArea_MouseLeftButtonDown"
+                        MouseLeftButtonUp="DragArea_MouseLeftButtonUp"
+                        MouseMove="DragArea_MouseMove" Height="56">
+                    <Label Content="SoundCOM" Foreground="#FFF7ED" FontSize="28" VerticalContentAlignment="Center" Margin="550,5,10,5"/>
+                    
+
+                    <Button Width="25" Height="25" VerticalAlignment="Center" Cursor="Hand" 
+                            Command="{Binding Minimize_WindowCommand}" Margin="450,5,10,5">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="line1" Storyboard.TargetProperty="(Line.Stroke).(SolidColorBrush.Color)"
+                                                    To="Black" Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed"/>
+                                        <VisualState x:Name="Disabled"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Line x:Name="line1" Width="25" Height="25" X1="0" Y1="12.5" X2="25" Y2="12.5"  StrokeThickness="3" Stroke="White"></Line>
+                                
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Width="25" Height=" 25" VerticalAlignment="Center" Cursor="Hand" Command="{Binding Close_WindowCommand}" Margin="10,0,0,5">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Grid Background="Transparent">
+                                <VisualStateManager.VisualStateGroups>
+                                    <VisualStateGroup x:Name="CommonStates">
+                                        <VisualState x:Name="Normal"/>
+                                        <VisualState x:Name="MouseOver">
+                                            <Storyboard>
+                                                <ColorAnimation Storyboard.TargetName="line1" Storyboard.TargetProperty="(Line.Stroke).(SolidColorBrush.Color)"
+                                                    To="Red" Duration="0:0:0.1"/>
+                                                <ColorAnimation Storyboard.TargetName="line2" Storyboard.TargetProperty="(Line.Stroke).(SolidColorBrush.Color)"
+                                                    To="Red" Duration="0:0:0.1"/>
+                                            </Storyboard>
+                                        </VisualState>
+                                        <VisualState x:Name="Pressed"/>
+                                        <VisualState x:Name="Disabled"/>
+                                    </VisualStateGroup>
+                                </VisualStateManager.VisualStateGroups>
+                                <Line x:Name="line1" Width="25" Height="25" X1="0" Y1="0" X2="25" Y2="25" StrokeThickness="3" Stroke="White"></Line>
+                                <Line x:Name="line2" Width="25" Height="25" X1="25" Y1="0" X2="0" Y2="25" StrokeThickness="3" Stroke="White"></Line>
+                            </Grid>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+
+                </StackPanel>
+                <StackPanel Margin="0,0,0,0" Height="45" Grid.Row="1" Orientation="Horizontal" Background="#949C77">
+                    <Button Content="Composite" Command="{Binding ToMainPageCommand}" Margin="10,5"/>
+                    <Button Content="Simple" Command="{Binding ToDataPageCommand}" Margin="10,5"/>
+                    <Button Content="Save" Command="{Binding SaveToFileCommand}" Margin="10,5"/>
+                    <Button Content="Set Up" Command="{Binding ShowSettingWindowCommand}" Margin="890,5,0,5"/>
+                </StackPanel>
+
+                <!-- 下半部分：页面内容 -->
+                <!-- 蒙版遮罩 -->
+                <Grid Grid.Row="2">
+                    <Frame x:Name="fmNavigation" NavigationUIVisibility="Hidden" Content="{Binding FrameContent}"/>
+                </Grid>
+
+
+            </Grid>
+        </Border>
+    </Viewbox>
+</Window>

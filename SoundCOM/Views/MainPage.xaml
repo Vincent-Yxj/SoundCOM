@@ -1,0 +1,124 @@
+﻿<Page x:Class="SoundCOM.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf" 
+             xmlns:viewmodels="clr-namespace:SoundCOM.ViewModels" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:MainPageViewModel}"
+             d:DesignHeight="850" d:DesignWidth="1250"
+             
+             mc:Ignorable="d">
+    <Page.Resources>
+        <!-- DataGrid 样式 -->
+        <Style TargetType="DataGrid">
+            <Setter Property="CanUserResizeColumns" Value="False" />
+            <Setter Property="Background" Value="#FFF7E2" />
+            <Setter Property="BorderBrush" Value="#FFF5F7F5" />
+        </Style>
+
+
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="HorizontalContentAlignment" Value="Center"/>
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="IsHitTestVisible" Value="False"/>
+        </Style>
+
+        <Style TargetType="DataGridRow">
+            <Setter Property="Background" Value="#F2F2F2" />
+            <Setter Property="Height" Value="25" />
+            <Setter Property="Foreground" Value="Black" />
+            <Style.Triggers>
+                <!-- ... 现有触发器 ... -->
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="LightGray" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style TargetType="DataGridCell">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridCell">
+                        <TextBlock TextAlignment="Center" VerticalAlignment="Center">
+                        <ContentPresenter />
+                        </TextBlock>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Page.Resources>
+
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="400"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="#FFF7E2" BorderBrush="Black" BorderThickness="2" Margin="10,10,10,5">
+                <Border.Effect>
+                    <DropShadowEffect ShadowDepth="3" BlurRadius="2" Opacity="0.5"/>
+                </Border.Effect>
+                <Canvas>
+                    
+                    <Label Content="{Binding DataFromSerialPort,Mode=TwoWay}" 
+                           Height="200" Width="200"
+                           HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="60" Foreground="Orange" Canvas.Left="88" Canvas.Top="40"/>
+                </Canvas>
+            </Border>
+            
+
+            <DataGrid Grid.Row="1" Margin="10,10,10,10" FontSize="10" 
+                      ItemsSource="{Binding ComDataGrid,Mode=TwoWay}" ColumnWidth="*" AutoGenerateColumns="True"
+                      RowHeaderWidth="0" ScrollViewer.CanContentScroll="False" IsReadOnly="True" CanUserAddRows="False" CanUserDeleteRows="False" CanUserSortColumns="False"
+                      BorderBrush="Black" BorderThickness="2">
+                <DataGrid.Effect>
+                    <DropShadowEffect ShadowDepth="3" BlurRadius="2" Opacity="0.5"/>
+                </DataGrid.Effect>
+            </DataGrid>
+        </Grid>
+
+        <lvc:CartesianChart Grid.Column="1" Background="#FFF7E2" Margin="10,10,10,10" LegendLocation="Top"  AnimationsSpeed="0:0:0.5" Hoverable="False" DataTooltip="{x:Null}" BorderBrush="Black" BorderThickness="2">
+            <lvc:CartesianChart.Series>
+                <lvc:LineSeries Values="{Binding ComDataChartValues}" Title="Real-Time" PointGeometrySize="3" LineSmoothness="0" Stroke="{Binding ChartValueColor,Mode=TwoWay}" Fill="Transparent"/>
+                <lvc:LineSeries Values="{Binding ComDataMaxValues}" Title="Max" PointGeometrySize="3" LineSmoothness="0" Stroke="{Binding MaxValueColor,Mode=TwoWay}" Fill="Transparent"/>
+                <lvc:LineSeries Values="{Binding ComDataMinValues}" Title="Min" PointGeometrySize="3" LineSmoothness="0" Stroke="{Binding MinValueColor,Mode=TwoWay}" Fill="Transparent"/>
+            </lvc:CartesianChart.Series>
+            <!--定义X轴-->
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Time" Foreground="Black">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="1" Stroke="Black"/>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisX>
+            <!--定义Y轴-->
+            <lvc:CartesianChart.AxisY>
+                <lvc:Axis Title="dB" MaxValue="130" MinValue="0" LabelsRotation="0" Foreground="Black">
+                    <lvc:Axis.Separator>
+                        <lvc:Separator Step="5" IsEnabled="True" Stroke="Black"/>
+                    </lvc:Axis.Separator>
+                </lvc:Axis>
+            </lvc:CartesianChart.AxisY>
+            <lvc:CartesianChart.Effect>
+                <DropShadowEffect ShadowDepth="3" BlurRadius="2" Opacity="0.5"/>
+            </lvc:CartesianChart.Effect>
+        </lvc:CartesianChart>
+    </Grid>
+</Page>
