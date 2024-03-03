@@ -1,4 +1,4 @@
-# SoundCOM Project
+# SoundCOM
 
 ![image](https://github.com/Vincent-Yxj/SoundCOM/blob/main/pic.png)
 
